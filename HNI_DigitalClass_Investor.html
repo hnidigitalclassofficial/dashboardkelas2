@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HNI Digital Class — Dampak Bisnis 2025–2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --ink:       #0D1F0F;
+  --ink-muted: #4A5C4C;
+  --ink-faint: #8A9E8C;
+  --green:     #1B5E20;
+  --green-mid: #2E7D32;
+  --green-lt:  #43A047;
+  --leaf:      #69F0AE;
+  --gold:      #E8A020;
+  --gold-lt:   #FFF8E6;
+  --red:       #C0392B;
+  --red-lt:    #FEF0EE;
+  --blue:      #1A56A0;
+  --bg:        #F8FAF8;
+  --surface:   #FFFFFF;
+  --border:    #D8E8D8;
+  --r:         10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--ink); font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; font-size: 13px; line-height: 1.5; overflow: hidden; }
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--green); height: 50px; padding: 0 32px;
+  flex-shrink: 0;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 28px; height: 28px; background: var(--leaf); border-radius: 50% 8px 50% 8px;
+  position: relative; flex-shrink: 0;
+}
+.logo-mark::after {
+  content: ''; position: absolute; width: 14px; height: 14px;
+  background: #25A65E; border-radius: 50% 4px 50% 4px; top: 6px; left: 7px;
+}
+.logo-name { color: #fff; font-size: 17px; font-weight: 700; letter-spacing: -.4px; }
+.logo-name em { color: var(--leaf); font-style: normal; }
+.topbar-title { color: rgba(255,255,255,.65); font-size: 12.5px; }
+.topbar-meta { color: rgba(255,255,255,.45); font-size: 11.5px; background: rgba(255,255,255,.1); padding: 3px 12px; border-radius: 100px; }
+
+/* ── SCROLL CANVAS ── */
+body { display: flex; flex-direction: column; }
+.canvas { flex: 1; overflow-y: auto; padding: 28px 32px 40px; }
+
+/* ── SECTION ── */
+.section { margin-bottom: 22px; }
+.section-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--ink-faint); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── KPI ROW ── */
+.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 14px 16px; position: relative; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+.kpi-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--green-mid);
+}
+.kpi-card.k-teal::before  { background: #00695C; }
+.kpi-card.k-gold::before  { background: var(--gold); }
+.kpi-card.k-red::before   { background: var(--red); }
+.kpi-card.k-blue::before  { background: var(--blue); }
+.kpi-label { font-size: 10px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px; }
+.kpi-value { font-size: 24px; font-weight: 800; color: var(--green); line-height: 1; }
+.kpi-card.k-teal  .kpi-value { color: #00695C; }
+.kpi-card.k-gold  .kpi-value { color: var(--gold); }
+.kpi-card.k-red   .kpi-value { color: var(--red); }
+.kpi-card.k-blue  .kpi-value { color: var(--blue); }
+.kpi-sub { font-size: 11px; color: var(--ink-faint); margin-top: 3px; }
+
+/* ── MAIN GRID ── */
+.main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.span2 { grid-column: span 2; }
+.span3 { grid-column: span 3; }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+.card-title {
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+  color: var(--ink-muted); margin-bottom: 12px;
+}
+
+/* ── OMSET HERO ── */
+.omset-hero {
+  background: linear-gradient(130deg, var(--green) 0%, #1B6B3A 55%, #00695C 100%);
+  border-radius: var(--r); padding: 20px 24px; color: #fff;
+  box-shadow: 0 2px 8px rgba(27,94,32,.25);
+}
+.oh-eyebrow { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,.55); margin-bottom: 6px; }
+.oh-main { font-size: 38px; font-weight: 800; color: var(--leaf); line-height: 1; letter-spacing: -1px; }
+.oh-main span { font-size: 16px; font-weight: 500; color: rgba(255,255,255,.6); letter-spacing: 0; }
+.oh-sub { font-size: 12px; color: rgba(255,255,255,.55); margin-top: 4px; }
+.oh-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.oh-stat { background: rgba(255,255,255,.1); border-radius: 8px; padding: 10px 12px; }
+.oh-stat .v { font-size: 18px; font-weight: 700; }
+.oh-stat .l { font-size: 10px; color: rgba(255,255,255,.55); margin-top: 1px; }
+
+/* ── AFFILIATOR BQ ── */
+.aff-bq { display: flex; flex-direction: column; gap: 8px; }
+.bq-row {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;
+}
+.bq-icon { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; margin-top: 1px; }
+.bq-ok   { background: #C8E6C9; color: var(--green); }
+.bq-warn { background: #FFF0C8; color: #7B4F00; }
+.bq-no   { background: #FAD5D0; color: var(--red); }
+.bq-text .q { font-size: 11.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.bq-text .a { font-size: 11px; color: var(--ink-muted); line-height: 1.55; }
+.bq-text .a strong { color: var(--ink); }
+
+/* ── COMBO CHART ── */
+.chart-wrap { position: relative; width: 100%; }
+.chart-note {
+  font-size: 10.5px; color: var(--ink-faint); margin-top: 8px; line-height: 1.5;
+  background: #F1F8F1; border-left: 2px solid var(--green-lt); padding: 6px 10px;
+  border-radius: 0 6px 6px 0;
+}
+
+/* ── TOP AFF TABLE ── */
+table.aff { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+table.aff th { background: var(--green); color: #fff; padding: 6px 10px; font-weight: 600; text-align: left; font-size: 10.5px; }
+table.aff th:not(:first-child) { text-align: right; }
+table.aff td { padding: 7px 10px; border-bottom: 1px solid var(--border); }
+table.aff td:not(:first-child) { text-align: right; }
+table.aff tr:nth-child(even) td { background: #F5FAF5; }
+table.aff tr.top td { background: #FFF8E6; font-weight: 600; }
+.rank { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; font-weight: 700; margin-right: 5px; }
+.r1 { background: #FFD700; color: #4A3000; }
+.r2 { background: #C0C0C0; color: #333; }
+.r3 { background: #CD7F32; color: #fff; }
+.rn { background: var(--border); color: var(--ink-muted); }
+
+/* ── TREN BULANAN ── */
+.tren-grid { display: grid; grid-template-columns: repeat(9,1fr); gap: 0; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.tren-col { border-right: 1px solid var(--border); }
+.tren-col:last-child { border-right: none; }
+.tren-head { background: var(--green); color: #fff; text-align: center; padding: 6px 4px; font-size: 10px; font-weight: 600; }
+.tren-body { padding: 8px 4px; text-align: center; }
+.tren-body.ramadan { background: #EFF4FF; }
+.tren-omset { font-size: 13px; font-weight: 700; color: var(--green); }
+.tren-peserta { font-size: 10px; color: var(--ink-faint); margin-top: 2px; }
+.tren-bar-wrap { height: 32px; display: flex; align-items: flex-end; justify-content: center; padding: 0 6px; }
+.tren-bar { border-radius: 3px 3px 0 0; width: 100%; }
+
+/* ── INSIGHT CHIPS ── */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 100px;
+  padding: 4px 12px; font-size: 11px; color: var(--ink-muted); white-space: nowrap;
+}
+.chip.c-green { background: #E8F5E9; border-color: #A5D6A7; color: var(--green); font-weight: 600; }
+.chip.c-gold  { background: var(--gold-lt); border-color: #FFD082; color: #7B4F00; font-weight: 600; }
+.chip.c-red   { background: var(--red-lt); border-color: #F5BDB8; color: var(--red); font-weight: 600; }
+
+/* ── CATATAN BAWAH ── */
+.footnote {
+  font-size: 10.5px; color: var(--ink-faint); margin-top: 6px; padding: 8px 12px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 6px; line-height: 1.6;
+}
+.footnote strong { color: var(--ink-muted); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-mark"></div>
+    <span class="logo-name">HNI<em>.id</em></span>
+    <span style="color:rgba(255,255,255,.2);margin:0 4px">|</span>
+    <span class="topbar-title">Digital Class, Laporan Dampak Bisnis</span>
+  </div>
+  <span class="topbar-meta">Sep 2025 – Jun 2026 &nbsp;·&nbsp; 51 Sesi</span>
+</div>
+
+<div class="canvas">
+
+  <!-- KPI ROW -->
+  <div class="section">
+    <div class="section-label">Indikator Utama Program</div>
+    <div class="kpi-row">
+      <div class="kpi-card k-teal">
+        <div class="kpi-label">Omset Masuk ke HNI via Peserta</div>
+        <div class="kpi-value">Rp 1,00 M</div>
+        <div class="kpi-sub">Oct 2025 – Jun 2026</div>
+      </div>
+      <div class="kpi-card k-gold">
+        <div class="kpi-label">Affiliator Baru dari Peserta Kelas</div>
+        <div class="kpi-value">101</div>
+        <div class="kpi-sub">Sebelumnya tidak pernah aktif</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Mitra Unik Hadir</div>
+        <div class="kpi-value">1.799</div>
+        <div class="kpi-sub">5.186 total feedback masuk</div>
+      </div>
+      <div class="kpi-card k-red">
+        <div class="kpi-label">Newcomer (1–2 sesi, silent churn)</div>
+        <div class="kpi-value">75,7%</div>
+        <div class="kpi-sub">1.283 dari 1.694 peserta tercatat</div>
+      </div>
+      <div class="kpi-card k-blue">
+        <div class="kpi-label">Avg Rating Peserta</div>
+        <div class="kpi-value">4,57</div>
+        <div class="kpi-sub">Skala 1 – 5</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2: OMSET HERO + BQ -->
+  <div class="section">
+    <div class="section-label">Dampak Bisnis Terverifikasi</div>
+    <div class="main-grid">
+
+      <!-- Omset Hero -->
+      <div class="omset-hero">
+        <div class="oh-eyebrow">Omset masuk ke HNI dari jaringan peserta kelas</div>
+        <div class="oh-main">Rp 1.002.809.000 <span>/ 9 bulan</span></div>
+        <div class="oh-sub">3.083 transaksi · 321 affiliator aktif · Oct 2025 – Jun 2026</div>
+        <div class="oh-stats">
+          <div class="oh-stat">
+            <div class="v">101 affiliator baru</div>
+            <div class="l">Rp 85,9 Jt omset murni baru</div>
+          </div>
+          <div class="oh-stat">
+            <div class="v">220 affiliator existing</div>
+            <div class="l">Rp 733,3 Jt omset dipertahankan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business Questions -->
+      <div class="card span2">
+        <div class="card-title">Business Questions — Status Jawaban</div>
+        <div class="aff-bq">
+          <div class="bq-row">
+            <div class="bq-icon bq-ok">✓</div>
+            <div class="bq-text">
+              <div class="q">Apakah program menghasilkan omset baru bagi HNI?</div>
+              <div class="a"><strong>Ya.</strong> Rp 1,00 Miliar omset masuk ke HNI.id via jaringan referral peserta kelas. 101 affiliator baru membawa Rp 85,9 Jt yang sebelumnya tidak ada.</div>
+            </div>
+          </div>
+          <div class="bq-row">
+            <div class="bq-icon bq-ok">✓</div>
+            <div class="bq-text">
+              <div class="q">Apakah peserta bertransformasi menjadi affiliator aktif?</div>
+              <div class="a"><strong>Ya.</strong> 321 dari 1.799 peserta aktif sebagai affiliator. 101 di antaranya adalah affiliator baru murni yang tidak pernah mereferensikan transaksi sebelum ikut kelas.</div>
+            </div>
+          </div>
+          <div class="bq-row">
+            <div class="bq-icon bq-ok">✓</div>
+            <div class="bq-text">
+              <div class="q">Tema apa yang paling menggerakkan omset via affiliator?</div>
+              <div class="a">Facebook (rata-rata Rp 59,2 Jt per 14 hari), Konten (Rp 58,2 Jt), dan Closing (Rp 56,4 Jt). Lihat combo chart di bawah.</div>
+            </div>
+          </div>
+          <div class="bq-row">
+            <div class="bq-icon bq-warn">!</div>
+            <div class="bq-text">
+              <div class="q">Apakah program terbukti menyebabkan kenaikan omset?</div>
+              <div class="a">Belum bisa diklaim kausal — tidak ada kelompok kontrol. Angka ini adalah korelasi kuat. Untuk klaim kausal penuh, diperlukan data transaksi seluruh mitra HNI sebagai pembanding.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 3: COMBO CHART + TOP AFF -->
+  <div class="section">
+    <div class="section-label">Korelasi Tema Kelas dan Omset via Affiliator</div>
+    <div class="main-grid">
+
+      <div class="card span2">
+        <div class="card-title">Omset masuk ke HNI (Jt Rp) per 14 hari setelah sesi — 51 sesi urutan waktu</div>
+        <div class="chart-wrap" style="height:185px">
+          <canvas id="chartCombo"></canvas>
+        </div>
+        <div class="chart-note">
+          Batang abu = jumlah peserta (sumbu kiri). Garis hijau = omset via affiliator peserta 14 hari setelah sesi (sumbu kanan). Sesi Ramadan (Feb–Mar) peserta turun tapi omset relatif stabil karena affiliator aktif tetap berjalan.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Top affiliator — omset yang dibawa ke HNI</div>
+        <table class="aff">
+          <thead><tr><th>Nama</th><th>Omset (Rp)</th><th>N Tx</th></tr></thead>
+          <tbody>
+            <tr class="top"><td><span class="rank r1">1</span>Rabiatul H.</td><td>115.235.000</td><td>321</td></tr>
+            <tr><td><span class="rank r2">2</span>Siti Fatlin</td><td>35.002.000</td><td>126</td></tr>
+            <tr><td><span class="rank r3">3</span>Dr. Fajria Y.</td><td>28.582.000</td><td>70</td></tr>
+            <tr><td><span class="rank rn">4</span>Anjar Riyadi</td><td>24.166.000</td><td>97</td></tr>
+            <tr><td><span class="rank rn">5</span>Aminnudin</td><td>22.157.000</td><td>68</td></tr>
+            <tr><td><span class="rank rn">6</span>Yasmin Afifah</td><td>21.311.000</td><td>98</td></tr>
+            <tr><td><span class="rank rn">7</span>Elin S. Halimah</td><td>15.828.000</td><td>33</td></tr>
+            <tr><td><span class="rank rn">8</span>Suyati</td><td>15.160.000</td><td>54</td></tr>
+          </tbody>
+        </table>
+        <div class="footnote" style="margin-top:8px">
+          <strong>Risiko konsentrasi:</strong> Rabiatul H. sendirian membawa 15,7% total omset via affiliator peserta. Perlu pengembangan affiliator kelas menengah.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 4: TREN + PROFIL -->
+  <div class="section">
+    <div class="section-label">Tren Bulanan dan Profil Peserta</div>
+    <div class="main-grid">
+
+      <!-- Tren Grid -->
+      <div class="card span2">
+        <div class="card-title">Omset via affiliator (Jt Rp) dan total peserta per bulan</div>
+        <div class="tren-grid">
+          <!-- headers -->
+          <div class="tren-col"><div class="tren-head">Okt 25</div>
+            <div class="tren-bar-wrap"><div class="tren-bar" style="height:90%;background:#2E7D32"></div></div>
+            <div class="tren-body"><div class="tren-omset">127,3</div><div class="tren-peserta">175 orang</div></div>
+          </div>
+          <div class="tren-col"><div class="tren-head">Nov 25</div>
+            <div class="tren-bar-wrap"><div class="tren-bar" style="height:85%;background:#2E7D32"></div></div>
+            <div class="tren-body"><div class="tren-omset">121,0</div><div class="tren-peserta">757 orang</div></div>
+          </div>
+          <div class="tren-col"><div class="tren-head">Des 25</div>
+            <div class="tren-bar-wrap"><div class="tren-bar" style="height:88%;background:#2E7D32"></div></div>
+            <div class="tren-body"><div class="tren-omset">125,4</div><div class="tren-peserta">1.145 orang</div></div>
+          </div>
+          <div class="tren-col"><div class="tren-head">Jan 26</div>
+            <div class="tren-bar-wrap"><div class="tren-bar" style="height:86%;background:#2E7D32"></div></div>
+            <div class="tren-body"><div class="tren-omset">122,4</div><div class="tren-peserta">1.194 orang</div></div>
+          </div>
+          <div class="tren-col"><div class="tren-head" style="background:#3B5FB5">Feb 26 🌙</div>
+            <div class="tren-bar-wrap"><div class="tren-bar" style="height:86%;background:#3B5FB5"></div></div>
+            <div class="tren-body ramadan"><div class="tren-omset" style="color:#1A56A0">121,4</div><div class="tren-peserta">512 orang</div></div>
+          </div>
+          <div class="tren-col"><div class="tren-head" style="background:#3B5FB5">Mar 26 🌙</div>
+            <div class="tren-bar-wrap"><div class="tren-bar" style="height:74%;background:#3B5FB5"></div></div>
+            <div class="tren-body ramadan"><div class="tren-omset" style="color:#1A56A0">105,0</div><div class="tren-peserta">267 orang</div></div>
+          </div>
+          <div class="tren-col"><div class="tren-head" style="background:#E8A020;color:#4A3000">Apr 26 ⭐</div>
+            <div class="tren-bar-wrap"><div class="tren-bar" style="height:83%;background:#E8A020"></div></div>
+            <div class="tren-body" style="background:#FFF8E6"><div class="tren-omset" style="color:#9B6800">118,4</div><div class="tren-peserta">947 orang</div></div>
+          </div>
+          <div class="tren-col"><div class="tren-head">Mei 26</div>
+            <div class="tren-bar-wrap"><div class="tren-bar" style="height:73%;background:#2E7D32"></div></div>
+            <div class="tren-body"><div class="tren-omset">103,3</div><div class="tren-peserta">490 orang</div></div>
+          </div>
+          <div class="tren-col"><div class="tren-head">Jun 26*</div>
+            <div class="tren-bar-wrap"><div class="tren-bar" style="height:41%;background:#90A4AE"></div></div>
+            <div class="tren-body" style="background:#F5F7F8"><div class="tren-omset" style="color:#90A4AE">58,8</div><div class="tren-peserta">465 orang</div></div>
+          </div>
+        </div>
+        <div class="footnote" style="margin-top:8px">
+          🌙 Ramadan (Feb–Mar): kehadiran peserta turun 56,7% tapi omset via affiliator hanya turun 17% — menunjukkan affiliator aktif tetap bekerja meski sesi sepi. ⭐ Apr 2026: recovery pasca-Lebaran dengan 947 peserta. *Jun 2026 data s.d. 18 Jun, belum selesai.
+        </div>
+      </div>
+
+      <!-- Profil Peserta -->
+      <div class="card">
+        <div class="card-title">Profil 1.694 peserta tercatat</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+          <div style="background:#F1F8F1;border:1px solid #C8E6C9;border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:22px;font-weight:800;color:var(--green)">75,4%</div>
+            <div style="font-size:10px;color:var(--ink-faint)">Perempuan (1.275 org)</div>
+          </div>
+          <div style="background:#FFF8E6;border:1px solid #FFD082;border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:22px;font-weight:800;color:#9B6800">70,8%</div>
+            <div style="font-size:10px;color:var(--ink-faint)">Stokis aktif (1.200 org)</div>
+          </div>
+          <div style="background:#F1F8F1;border:1px solid #C8E6C9;border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:22px;font-weight:800;color:var(--green)">6,5 thn</div>
+            <div style="font-size:10px;color:var(--ink-faint)">Avg masa keanggotaan</div>
+          </div>
+          <div style="background:#EFF4FF;border:1px solid #C0D4F5;border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:22px;font-weight:800;color:var(--blue)">Jabar</div>
+            <div style="font-size:10px;color:var(--ink-faint)">Domisili terbanyak (463)</div>
+          </div>
+        </div>
+        <div class="card-title" style="margin-top:4px">Segmentasi loyalitas</div>
+        <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:11px">
+          <div style="display:flex;height:22px">
+            <div style="width:1.95%;background:#E8A020" title="Super Loyalist 33 mitra"></div>
+            <div style="width:5.1%;background:#2E7D32" title="Loyalist 86 mitra"></div>
+            <div style="width:17.2%;background:#43A047;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700">17,2%</div>
+            <div style="flex:1;background:#D8E8D8;display:flex;align-items:center;justify-content:center;color:#4A5C4C;font-size:9px;font-weight:700">Newcomer 75,7%</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:10.5px">
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#E8A020;border-radius:2px"></span>Super Loyalist 15+ sesi (33)</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#2E7D32;border-radius:2px"></span>Loyalist 8-14 sesi (86)</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#43A047;border-radius:2px"></span>Regular 3-7 sesi (292)</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#D8E8D8;border-radius:2px"></span>Newcomer 1-2 sesi (1.283)</span>
+        </div>
+        <div class="footnote" style="margin-top:10px">
+          70,8% peserta adalah stokis — mitra yang punya izin jual ke mitra lain. Ini menjelaskan mengapa program lebih menggerakkan jaringan affiliasi dibanding pembelian pribadi.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATATAN BAWAH -->
+  <div class="footnote">
+    <strong>Metodologi:</strong> Omset dihitung dari transaksi di HNI.id yang kolom affiliator_id-nya adalah peserta kelas (bukan dari pembelian pribadi peserta). Status order valid = 2 dan 4. Data transaksi tersedia sejak 2018, periode program Sep 2025–Jun 2026. Pertumbuhan +2,3% pre/post adalah korelasi, bukan kausalitas — tidak ada kelompok kontrol. Semua nama dan angka affiliator terverifikasi dari data transaksi. Jun 2026 baru sebagian bulan (s.d. 18 Jun).
+  </div>
+
+</div><!-- end canvas -->
+
+<script>
+const G700='#2E7D32', SLATE='#90A4AE';
+
+const labelSesi=['Open Mic','Ngonten(1)','TikTok(1)','Promosi AI','Desain AI','CW(1)','Brand(1)','Brand(2)','TikTok Sell','TikTok Spcl','AI Promosi','Desain Konten','Strategi','CW Closing','Kupas HNI','Opt.Aff','IG Ref','TikTok Close','Closing WA','Flyer AI','FB(1)','FB Tips','Ngonten Rmdn','Hook Close','Konten Brand','CW Dasar','Promo Rmdn','Close Edu','Flyer Rmdn','CW Produk','Promo Lbran','Paket Lbran','Close TP(1)','Close Mitra','Design AI(1)','Video AI(1)','FB Meta','Close Ref','Brand Promo','Ngonten(2)','Close(2)','Close TP(2)','CW(2)','Hook(2)','IG Organik','Design(2)','Video(2)','FB(2)','TikTok Jun','Website','GMB'];
+const peserta=[175,170,148,156,104,179,106,106,183,205,176,111,125,133,202,166,155,158,156,105,148,104,131,80,100,72,61,68,30,68,52,30,87,78,149,145,124,81,99,70,115,86,85,89,76,125,115,121,105,135,104];
+const omset=[63.94,59.46,54.60,53.99,54.20,52.89,57.67,51.82,53.36,53.89,54.74,58.20,54.10,59.03,60.90,54.38,50.96,49.49,51.38,58.03,65.20,65.77,61.75,57.39,53.66,50.87,67.71,67.67,55.04,45.33,29.24,27.89,60.40,55.15,54.46,54.85,50.58,51.57,56.16,57.95,56.92,58.64,52.50,46.17,43.10,38.68,41.88,55.26,47.81,22.40,14.11];
+
+// Warna bar berdasarkan periode
+const barColors = labelSesi.map((_,i) => {
+  if(i>=22 && i<=31) return '#3B5FB5'; // Ramadan
+  return SLATE+'99';
+});
+
+new Chart(document.getElementById('chartCombo'),{
+  type:'bar',
+  data:{
+    labels:labelSesi,
+    datasets:[
+      {label:'Peserta',data:peserta,backgroundColor:barColors,yAxisID:'y',order:2},
+      {label:'Omset via Aff (Jt Rp)',data:omset,type:'line',yAxisID:'y1',
+       borderColor:G700,backgroundColor:G700,borderWidth:2,
+       pointRadius:2.5,pointBackgroundColor:G700,tension:0.25,order:1}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        callbacks:{
+          label:ctx => ctx.datasetIndex===0
+            ? ` Peserta: ${ctx.parsed.y}`
+            : ` Omset: Rp ${(ctx.parsed.y*1e6).toLocaleString('id')}`
+        }
+      }
+    },
+    scales:{
+      x:{ticks:{font:{size:8},maxRotation:50,autoSkip:true,maxTicksLimit:20},grid:{color:'rgba(0,0,0,0.03)'}},
+      y:{title:{display:true,text:'Peserta',font:{size:9}},ticks:{font:{size:9}}},
+      y1:{position:'right',title:{display:true,text:'Omset (Jt Rp)',font:{size:9}},grid:{drawOnChartArea:false},ticks:{font:{size:9}}}
+    }
+  }
+});
+</script>
+</body>
+</html>
